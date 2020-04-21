@@ -1,0 +1,362 @@
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(date 1587500531954)
++++ .idea/vcs.xml	(date 1587500531954)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: src/exception/examples/SaveScoreException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/exception/examples/SaveScoreException.java	(date 1587432319935)
++++ src/exception/examples/SaveScoreException.java	(date 1587432319935)
+@@ -0,0 +1,4 @@
++package exception.examples;
++
++public class SaveScoreException extends Exception{
++}
+Index: Statistics.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Statistics.txt	(date 1587500536875)
++++ Statistics.txt	(date 1587500536875)
+@@ -0,0 +1,1 @@
++Guardado:2020/04/21 15:22:16
+Index: Progress.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Progress.txt	(date 1587500536874)
++++ Progress.txt	(date 1587500536874)
+@@ -0,0 +1,1 @@
++Guardado:2020/04/21 15:22:16
+Index: src/exception/examples/SaveStatisticsException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/exception/examples/SaveStatisticsException.java	(date 1587432530434)
++++ src/exception/examples/SaveStatisticsException.java	(date 1587432530434)
+@@ -0,0 +1,4 @@
++package exception.examples;
++
++public class SaveStatisticsException extends Exception{
++}
+Index: src/exception/examples/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/exception/examples/Main.java	(date 1587430645920)
++++ src/exception/examples/Main.java	(date 1587430645920)
+@@ -0,0 +1,11 @@
++package exception.examples;
++
++public class Main {
++
++    public static void main(String[] args)
++    {
++        Game game = new Game();
++
++        game.saveGame();
++    }
++}
+Index: Score.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Score.txt	(date 1587500536875)
++++ Score.txt	(date 1587500536875)
+@@ -0,0 +1,1 @@
++Guardado:2020/04/21 15:22:16
+Index: src/exception/examples/SaveProgressException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/exception/examples/SaveProgressException.java	(date 1587431826403)
++++ src/exception/examples/SaveProgressException.java	(date 1587431826403)
+@@ -0,0 +1,4 @@
++package exception.examples;
++
++public class SaveProgressException extends Exception{
++}
+Index: src/exception/examples/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/exception/examples/Game.java	(date 1587505115133)
++++ src/exception/examples/Game.java	(date 1587505115133)
+@@ -0,0 +1,100 @@
++package exception.examples;
++
++import java.io.FileWriter;
++import java.io.IOException;
++import java.time.LocalDateTime;
++import java.time.format.DateTimeFormatter;
++
++public class Game {
++
++    private static final String FORMAT_FOR_DATES = "yyyy/MM/dd HH:mm:ss";
++    private static final String FILE_NAME_SCORE = "Score.txt";
++    private static final String FILE_NAME_PROGRESS = "Progress.txt";
++    private static final String FILE_NAME_STATISTICS = "Statistics.txt";
++
++
++    public void saveGame(){
++        try {
++            saveProgress();
++            saveScore();
++            saveStatistics();
++        }
++        catch (SaveProgressException ex)
++        {
++            System.err.println("Can't save progress" + ex.getMessage());
++        }
++        catch (SaveScoreException ex)
++        {
++            System.err.println("Can't save score" + ex.getMessage());
++        }
++        catch (SaveStatisticsException ex)
++        {
++            System.err.println("Can't save statistics" + ex.getMessage());
++        }
++    }
++
++    private void saveStatistics() throws SaveStatisticsException {
++        FileWriter writer = null;
++        try {
++            LocalDateTime now = LocalDateTime.now();
++            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_FOR_DATES);
++            writer = new FileWriter(FILE_NAME_STATISTICS, true);
++            writer.append("Guardado:").append(now.format(formatter)).append(System.lineSeparator());
++            writer.close();
++
++        } catch (IOException e) {
++            throw new SaveStatisticsException();
++        } finally {
++            if (writer != null) {
++                try {
++                    writer.close();
++                } catch (IOException e) {
++                }
++            }
++        }
++    }
++
++    private void saveScore() throws SaveScoreException {
++        FileWriter writer = null;
++        try {
++            LocalDateTime now = LocalDateTime.now();
++            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_FOR_DATES);
++            writer = new FileWriter(FILE_NAME_SCORE, true);
++            writer.append("Guardado:").append(now.format(formatter)).append(System.lineSeparator());
++            writer.close();
++
++        } catch (IOException e) {
++            throw new SaveScoreException();
++        } finally {
++            if (writer != null) {
++                try {
++                    writer.close();
++                } catch (IOException e) {
++                }
++            }
++        }
++    }
++
++    private void saveProgress() throws SaveProgressException {
++        FileWriter writer = null;
++        try {
++            LocalDateTime now = LocalDateTime.now();
++            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_FOR_DATES);
++            writer = new FileWriter(FILE_NAME_PROGRESS, true);
++            writer.append("Guardado:").append(now.format(formatter)).append(System.lineSeparator());
++            writer.close();
++
++        } catch (IOException e){
++            throw new SaveProgressException();
++        }
++        finally
++        {
++            if(writer != null) {
++                try {
++                    writer.close();
++                } catch (IOException e) {
++                }
++            }
++        }
++    }
++}
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.gitignore	(date 1587430072802)
++++ .idea/.gitignore	(date 1587430072802)
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1587430078146)
++++ .idea/misc.xml	(date 1587430078146)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="false" project-jdk-name="14" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.name	(date 1587430065703)
++++ .idea/.name	(date 1587430065703)
+@@ -0,0 +1,1 @@
++Exceptions
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(date 1587430065812)
++++ .idea/modules.xml	(date 1587430065812)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/Parcial 3.iml" filepath="$PROJECT_DIR$/Parcial 3.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: Parcial 3.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Parcial 3.iml	(date 1587430065765)
++++ Parcial 3.iml	(date 1587430065765)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+diff --git out/production/Parcial 3/exception/examples/Game.class out/production/Parcial 3/exception/examples/Game.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..64610849884c58aa2e7caa57f7fba25f6d615a34
+GIT binary patch
+literal 3685
+zc$~#nTT>HB6#j<W#5gXBpt7!rtSC1LtB5YBh%td^0!Si=xWbUMFp|u~nc=qg`~CX1
+z|G;PW0WGas-}Yhu%f9c^x?fKc2t}~8$||X%d;0V_U!U{!Ij8gYe~<qJ@GgGyqYULL
+zDl}B0O2O{C`jQ?<>*icwWcIE|x(ce!8K&W0P*C2|I_`%LJ5=~J?3C*J#Y$3SUBfa1
+zVnxqn)4~Z1>KUOxbMz%KYFl%*a2yr86ttAkjTb3}3fntSjom8tXsE&7O)kY(9am)N
+ziLh-2by07}umYpDVY+eG7J8=74-Iu1_F=yQ|D14Rgx2TiQEf|Wv<S+j&0Jp%S*X|W
+zCJr)~jJ_a(mYLMu3B#S|m*eWD>nJ$ZvemK#m>-AGpyIHGMjTPFw}g8N)T~^kP5NI7
+z)noW=4M!!tJ0ywmq-6^g#}qVg!=R_JPM;smsH=g3dI{C0p<P0~;X%2&YdEfv<c*wA
+z(6$}kx>^xvhXgH?pzq+Mic=c8ahjxgA-G0H1fo__PhZwukuYQil$+MFf`bLtx2p8{
+zaE2_c@-GmJ1yZTTp`qSPrq^-&%*<XDeHzZ;yn?0;fIF6*(cM4+BJ3?)!ED%J-5K>h
+z$?Vzf@9ViJeJc7D)D-S5Y^246ZE(Yf0aCcZOQ*Zy`f&k4SvHpy>??8L&DL=r!gOqK
+zQMXfi%IcLCLmDEu!m84<Sz)Gl3B{(tdEJhSdyB$Mih{><B<Dn*q&})4hGE+0V%UiF
+z`GJ+p)=><pxW>RXpW|o!#Wf^k1?@^3rihEIZtJdP%K*kTOvr?)Or|Y|c{y2>=#i04
+z2~+OFEynMqXO6LEDVt_@C=`88tf8EB9v&Hs4J4*HO<x{JgyOu3tzOfmLSc^U=|$#Q
+zbvP0YO%D&mLeuf!$XJMG8<Nqnk-@Q0oLIF*YKehFB%X)_DXs`wDG3r~oWqNmSz#yi
+z*|d;n%Um7TZ9}f}!U}iZU_YpjZqxVZo=+B9t_PNh72a<t-I9He#>cl)-dy6;?ATUw
+zYw=3bC{8ZK^lUzm`fZDn7j|c(s*b)$aw$+maXT(b1MXEVds)RBh;A(`R^0oA1oEyq
+zF>hPTIUoJ&D5TsUw-)WBke0Hf$Zw}KV%l7?EZ1>uJsT75yp?jQtMI8GpW$;AU&zk>
+zC8OBDH_Rn#LFBV3*X+Z3lDWOA;P>KE%q!+VhjcSVf{#WmYhf|lw>2%dGfb>zMG5t(
+zB2n(0-Bh7@h@hTM$H@{K<=3PysGG;#MwwoX*?jIOK76ZSPtlGe6NTdM*_4XK>sg_&
+z`XZ(&>|k1V9Ko01C%!B%6t{|B6f`_vmG_-f#u2_gWqe*Mcn3OW`5+~^Dnk#~siO51
+z*P>{Bo9jD8>x*o$iu`rLagLGzXN7ZR+e0W1Je7HlRi4lXgQJ#Hz+EhGR*+sd{)gJq
+zsc_pG)ce>Q{R3~buc7ua4ghO-i{hpY@$tuKDTrG)#GQ}ngcLtOxfh_y6ZhjF8ra}E
+zaT2Fx^Ygsw!7h$9)TyJ^Uiw!{O{puj58yEBX>o`)M`+bR{lf^M$%~?mRzCLP3`}}|
+z*!!~h)#H6-y%@v!81M0a52^;~Np)C7vm83A87d!tjtpHHCtMZPrj+O-bj50V9^vfp
+z6I__AxmfWKm!j=8p*0M4oLIxvHH<vM7{>`ld%gWHw95HDnqv3S5PO1-$%nZ4w6}sg
+zT5hMZx3a$C=>u}!jkD;(4IbKs{`@?|V}~(@>s<Hainq@3GfYlE*2-|4&b5%oR<hGZ
+z{@Q8RMYNN|>n7qU{ubz_^$8|KClR`6dy<&lL_NhPsRuW4#^bHqOO`gyHgV-oDF-gk
+zyGS+{vE<$VRGzmoOkx=;<We$t3RTZ|RGA8&%BN0IaU;lozLKlY2vnJu^CnllP32z#
+zeBh-3J2JnIz5v@(FUxi_*?#X8vfWFqb9C-JL%Kk=`|0{c+J%TVNW2IUho}+Z&L!>y
+zxeC#CkeCso4w3DvWIOsg*_J7@^99(x{jzLpWP9cnvOPkrYjkdmA;rmdf^1)>-7TWs
+zCf*DYr^)sVttZIZ4I<p4?QL4jP;;8nS+bpcoow?58b0(OKf=eHYq|b}@~^z{8*ls$
+PKXAv-uOIO<entKN*e_i8
+
+diff --git out/production/Parcial 3/exception/examples/SaveProgressException.class out/production/Parcial 3/exception/examples/SaveProgressException.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..e2ea2767ce298535610c98c6d9c81b9fc3080538
+GIT binary patch
+literal 329
+zc$_=+Z`VEs1_nz80WJn624;2!79Ivx1~x_p;jF~6ME#t^ymWonisaOSlFa-(Mg}&U
+z%)HDJJ4Oa(4b3oi1`b9BjZ~PderiQxZb43Jv3_u3S!zI0etJ=AaWRr+7U%qwR7M7V
+zpUk{eztY^K)S{5Yq#U4#kWYScVoq3MQ6`8F6=W&N$Sh`L(DEVH0&7MFuHgLAqU2P!
+zOppOmSXJqP{KcTizz*~-2rvR6(8EBI6UfsC^BEXewYD=bZUi!z7`T8W8(5H;fg4Ej
+PKokIJUa)pPuqu84AYV{Q
+
+diff --git out/production/Parcial 3/exception/examples/SaveStatisticsException.class out/production/Parcial 3/exception/examples/SaveStatisticsException.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..5d6f97160cfcb786f12c83a36a616ca5e33ae5d7
+GIT binary patch
+literal 335
+zc$|$-!AiqG5Pj36NsZNtUVG_Hi@0Y|yojEHmq_o^bkLDBDap3<w>$|R`~W{noJ0jL
+zf;;eb-kUeOy!VgSHvs22NYFzNBOIcSh;a188+HYk5AJ50%gSq25~52j)n5^U<C9s8
+z0bwdXQzu(qt_o>f#v92zdu_bt&9C+Fx>^Wflxit=>*ZYPd!84j9Hv#y#f)oh`L`JQ
+zM{NkF>HojDAS79}u5-E7_KEQyzOyzRCWtL`d&tUS8}1l$9S8c;7tpgcJtT%vCkEIx
+P9DW(>-s{%)JJ;wF?rl=i
+
+diff --git out/production/Parcial 3/exception/examples/SaveScoreException.class out/production/Parcial 3/exception/examples/SaveScoreException.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..48b92edfa8996c16246d35a3e262aaeaf838a96d
+GIT binary patch
+literal 320
+zc$_=+Z`VEs1_nz80WJn624;2!79Ivx1~x_p;jF~6ME#t^ymWonisaOSlFa-(Mg}&U
+z%)HDJJ4Oa(4b3oi1`b9B)l`_QeriQxZb43Jv3_u3S!!@{eo-otP8R3<lvG9rexJ;|
+zRKL>Pq|~C2#H1Xch>%Zya$-(cVo@fD4;5r7$;d2bWKj1Z%5-Z+2Cm@z(xT*4w@i?3
+zaZDw8An!0JGOz=E2?C5j2=phA<OK5c!F&b=R;}#}j2nRrCI&7b$p#i=X5a>rJP-vy
+Mnis5{53GtG0Noi(HUIzs
+
+diff --git out/production/Parcial 3/exception/examples/Main.class out/production/Parcial 3/exception/examples/Main.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..7a9271fbf7d4d9009e990a01000f14437c075e3c
+GIT binary patch
+literal 513
+zc${^RO;5r=5Qg8SKtC)Wf`X_QZ-9wC8;lndjY-u5rit;i)J<K|4^j%@Z+VeK6Muj|
+z$~ap{xWFFf&CWaX?Ckvhef<Eq#Hob>G#y17C6pQJV?O6j$m76y8jXdYF_f=lEVF9{
+zt=sc-7z}N(@WmvPN$iLPk0zm*I(Ix07IbJT?Afpt&6x7JP>zo3_O=HuV}{~Q@+KH+
+zu8hUwEE<XQnU6xsG~C4Jp~q9H?(1YRdzVv&j=O_5ppq!(wz{wG=0n3Qm2oiWdF1mn
+zAVhPEO=dt7@8GM?P>D56W~nc3rJBc7k6tJc&QPI!s#5?{8>LvIn?uS-OZ_F-M{d_C
+zmh+^BeTw#~01Y%rO&s8G-F#2g3R?Mw{<4JWo`1sHK&k`)E#06d8&(c$tr|$%qy}M+
+M(8*^w&ihXO0T8TdN&o-=
+
